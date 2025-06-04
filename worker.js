@@ -402,11 +402,11 @@ function loadWasmModule() {
             try {
                 var canvasWidth = gl.canvas.width;
                 var canvasHeight = gl.canvas.height;
-                console.log('DEBUG: 准备调用init_libs函数, 是否存在:', typeof self.Module._init_libs);
+                console.log('DEBUG: 准备调用init_sokol函数, 是否存在:', typeof self.Module._init_sokol);
                 
-                if (typeof self.Module._init_libs === 'function') {
-                    self.Module._init_libs(canvasWidth, canvasHeight);
-                    console.log('DEBUG: 成功调用init_libs函数');
+                if (typeof self.Module._init_sokol === 'function') {
+                    self.Module._init_sokol(canvasWidth, canvasHeight);
+                    console.log('DEBUG: 成功调用init_sokol函数');
                     
                     // 尝试调用JS测试函数 - 这将调用js_test_function在C代码中定义的EM_JS函数
                     if (typeof self.Module._js_test_function === 'function') {
@@ -416,7 +416,7 @@ function loadWasmModule() {
                         console.log('DEBUG: js_test_function不存在');
                     }
                 } else {
-                    console.error('DEBUG: init_libs函数不存在!');
+                    console.error('DEBUG: init_sokol函数不存在!');
                 }
             } catch (e) {
                 console.error('DEBUG: 调用WASM函数出错:', e, e.stack);
@@ -430,15 +430,15 @@ function loadWasmModule() {
         }
     };
     
-    console.log('DEBUG: preload demo.js');
+    console.log('DEBUG: preload sokol_demo.js');
     
     // 检查Module对象
     console.log('DEBUG: Module对象状态（加载前）:', typeof self.Module, self.Module ? Object.keys(self.Module).length : 'null');
     
     try {
         // 加载WASM模块脚本
-        importScripts('demo.js');
-        console.log('DEBUG: demo.js loaded');
+        importScripts('sokol_demo.js');
+        console.log('DEBUG: sokol_demo.js loaded');
         
         // 再次检查Module对象
         console.log('DEBUG: Module对象状态（加载后）:', typeof self.Module, self.Module ? Object.keys(self.Module).length : 'null');
@@ -545,12 +545,12 @@ function initializeWasmModule() {
     console.log('DEBUG: WASM模块导出的函数:', wasmFunctions.join(', '));
     
     // 初始化WebGL
-    if (typeof WasmModule._init_libs === 'function') {
+    if (typeof WasmModule._init_sokol === 'function') {
         try {
             var canvasWidth = gl.canvas.width;
             var canvasHeight = gl.canvas.height;
-            WasmModule._init_libs(canvasWidth, canvasHeight);
-            console.log('DEBUG: 成功调用init_libs函数');
+            WasmModule._init_sokol(canvasWidth, canvasHeight);
+            console.log('DEBUG: 成功调用init_sokol函数');
             
             // 发送初始化完成消息
             postMessage({ type: 'initialized' });
@@ -558,10 +558,10 @@ function initializeWasmModule() {
             // 强制开始渲染
             startRenderLoop();
         } catch (e) {
-            console.error('DEBUG: 调用init_libs出错:', e);
+            console.error('DEBUG: 调用init_sokol出错:', e);
         }
     } else {
-        console.error('DEBUG: _init_libs函数不存在!');
+        console.error('DEBUG: _init_sokol函数不存在!');
     }
 }
 
@@ -771,5 +771,5 @@ self.onmessage = function(e) {
 };
 
 // 初始通知
-postMessage({ type: 'status', status: 'Sokol Worker已启动' });
-console.log('DEBUG: 开始检查浏览器控制台是否有错误信息');
+postMessage({ type: 'status', status: 'Worker已启动' });
+console.log('DEBUG: Worker线程已初始化');
