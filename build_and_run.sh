@@ -1,5 +1,5 @@
 #!/bin/bash
-# build_and_run.sh - 编译和运行Sokol OffscreenCanvas Worker示例
+# build_and_run.sh - 编译和运行WebGLWorker OffscreenCanvas Worker示例
 
 # 颜色定义
 RED='\033[0;31m'
@@ -47,16 +47,16 @@ check_requirements() {
     success "所有必要的依赖项已找到。"
 }
 
-# 下载Sokol头文件（如果尚未存在）
+# 下载WebGLWorker头文件（如果尚未存在）
 download_headers() {
-    info "检查Sokol头文件..."
+    info "检查WebGLWorker头文件..."
     
     mkdir -p include
     
-    # 不再需要下载Sokol头文件
+    # 不再需要下载WebGLWorker头文件
     info "跳过头文件下载，使用简化WebGL示例"
     
-    success "Sokol头文件准备就绪。"
+    success "WebGLWorker头文件准备就绪。"
 }
 
 # 修改C文件以使用正确的头文件路径
@@ -74,7 +74,7 @@ update_includes() {
 
 # 编译C代码
 compile_code() {
-    info "编译Sokol示例..."
+    info "编译WebGLWorker示例..."
     
     emcc demo.c -o demo.js \
         -s WASM=1 \
@@ -188,7 +188,7 @@ open_browser() {
 # 主函数
 main() {
     echo "========================================"
-    echo "  Sokol OffscreenCanvas Worker 示例构建"
+    echo "  WebGLWorker OffscreenCanvas Worker 示例构建"
     echo "========================================"
     
     check_requirements

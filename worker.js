@@ -771,5 +771,5 @@ self.onmessage = function(e) {
 };
 
 // 初始通知
-postMessage({ type: 'status', status: 'Sokol Worker已启动' });
-console.log('DEBUG: 开始检查浏览器控制台是否有错误信息');
+postMessage({ type: 'status', status: 'Worker已启动' });
+console.log('DEBUG: Worker线程已初始化');
